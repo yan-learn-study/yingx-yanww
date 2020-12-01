@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.CategoryMapper">
+    <resultMap id="categoryResult" type="com.baizhi.po.CategoryPO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="cateName"/>
+        <result column="level" jdbcType="CHAR" property="levels"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <collection property="categoryList" ofType="com.baizhi.po.CategoryPO">
+            <id column="cid" property="id"/>
+            <result column="cname" property="cateName"/>
+            <result column="clevel" property="levels"/>
+            <result column="cprentId" property="parentId"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    g.id, g.name, g.level, g.parent_id,
+    c.id cid,c.name cname, c.level clevel, c.parent_id cprentId
+  </sql>
+
+    <select id="selectAllCategory" resultMap="categoryResult">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        (select id,name,level,parent_id from yx_category where level='1')g LEFT JOIN yx_category c on g.id =
+        c.parent_id;
+    </select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.VideoMapper">
+    <resultMap id="videoResult" type="com.baizhi.po.VideoPO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="videoTitle"/>
+        <result column="cover_path" jdbcType="CHAR" property="cover"/>
+        <result column="video_path" jdbcType="VARCHAR" property="path"/>
+        <result column="upload_time" jdbcType="VARCHAR" property="uploadTime"/>
+        <result column="intro" jdbcType="VARCHAR" property="description"/>
+        <result column="name" jdbcType="VARCHAR" property="cateName"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="head_show" jdbcType="VARCHAR" property="userPhoto"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <collection property="videoList" ofType="com.baizhi.po.VideoPO">
+            <id column="pid" property="id"/>
+            <result column="videoTitle" jdbcType="VARCHAR" property="videoTitle"/>
+            <result column="coverPath" jdbcType="CHAR" property="cover"/>
+            <result column="videoPath" jdbcType="VARCHAR" property="path"/>
+            <result column="uploadTime" jdbcType="VARCHAR" property="uploadTime"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="cateName" jdbcType="VARCHAR" property="cateName"/>
+            <result column="categoryId" jdbcType="VARCHAR" property="categoryId"/>
+            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+            <result column="head_show" jdbcType="VARCHAR" property="userPhoto"/>
+            <result column="username" jdbcType="VARCHAR" property="userName"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    v.id, v.title videoTitle,v.cover_path cover,v.video_path path,v.upload_time uploadTime,v.intro description,
+    c.name cateName,u.head_show userPhoto
+  </sql>
+    <select id="queryByReleaseTime" resultType="com.baizhi.po.VideoPO">
+        select
+        <include refid="Base_Column_List"/>
+        from yx_user u
+        right join yx_video v on u.id=v.user_id
+        left join yx_category c on v.category_id=c.id
+    </select>
+
+    <select id="selectByLikeVideoName" parameterType="java.lang.String" resultType="com.baizhi.po.VideoPO">
+    select v.id, v.title videoTitle,v.cover_path cover,v.video_path path,v.upload_time uploadTime,v.intro description,
+    c.id categoryId,u.id userId from yx_user u
+    right join (SELECT id,title,cover_path,video_path,upload_time,intro,user_id,category_id,group_id  from yx_video where title like concat('%',#{content},'%') )v on u.id=v.user_id
+    left join yx_category c on v.category_id=c.id
+  </select>
+
+    <select id="selectByVideoDetail" parameterType="java.lang.String" resultType="com.baizhi.po.VideoPO">
+    select u.*,v.*,c.* from (SELECT id uid,username,head_show from yx_user where id = #{userId} ) u
+    right join (SELECT id,title,cover_path,video_path,upload_time,intro,user_id,category_id,group_id  from yx_video where id = #{videoId})v on u.uid=v.user_id
+    left join (SELECT id pid, title videoTitle,cover_path coverPath,video_path videoPath,upload_time uploadTime,intro description from yx_video where category_id = #{cateId}) c on v.category_id=c.pid
+  </select>
+
+
+</mapper>
