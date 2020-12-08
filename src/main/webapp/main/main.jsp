@@ -135,7 +135,8 @@
                                 </li>
                                 <li class="list-group-item"
                                     style="margin-bottom: 5px;padding: 0px;border: 2px solid white">
-                                    <a class="btn btn-warning" href="#">视频搜索</a>
+                                    <a class="btn btn-warning" href="javascript:;"
+                                       onclick="javascript:$('#content').load('${path}/video/searchVideo.jsp');">视频搜索</a>
                                 </li>
                             </ul>
                         </div>
