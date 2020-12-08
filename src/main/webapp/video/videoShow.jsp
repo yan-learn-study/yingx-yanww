@@ -113,7 +113,7 @@
 <!--用户展示-->
 <div class="col-sm-10">
     <div class="panel panel-info">
-        <div class="panel-heading" style="height: 60px"><h3 style="margin-top: 10px">用户信息</h3></div>
+        <div class="panel-heading" style="height: 60px"><h3 style="margin-top: 10px">视频信息</h3></div>
         <div class="panel-body" style="padding: 0px 0px;padding-bottom: 0px">
             <div class="col-sm-12" style="padding-left: 0px;">
                 <table id="videoTable"></table>

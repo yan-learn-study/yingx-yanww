@@ -1,6 +1,7 @@
 package com.baizhi.controller;
 
 import com.baizhi.entity.Video;
+import com.baizhi.po.VideoEs;
 import com.baizhi.service.VideoService;
 import com.baizhi.util.PageObject;
 import org.slf4j.Logger;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,4 +62,13 @@ public class VideoController {
         }
         return map;
     }
+
+    @RequestMapping("searchVideo")
+    @ResponseBody
+    public List<VideoEs> searchVideo(String content) throws IOException, ParseException {
+        List<VideoEs> videoEs = service.searchVideo(content);
+        return videoEs;
+    }
+
+
 }

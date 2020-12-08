@@ -1,11 +1,13 @@
 package com.baizhi.service;
 
 import com.baizhi.entity.Video;
+import com.baizhi.po.VideoEs;
 import com.baizhi.po.VideoPO;
 import com.baizhi.util.PageObject;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +32,6 @@ public interface VideoService {
     List<VideoPO> queryByVideoDetail(String userId, String videoId, String cateId);
 
     List<VideoPO> queryByLikeVideoName(String content);
+
+    List<VideoEs> searchVideo(String content) throws IOException, ParseException;
 }
